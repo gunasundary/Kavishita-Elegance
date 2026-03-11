@@ -1,16 +1,24 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { products } from "../data/product";
 import Navbar from "./navbar";
+import { API_URL } from "../api";
 
 function Products() {
   const navigate = useNavigate();
 
-  // 🔹 NEW STATE
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
 
-  // 🔹 FILTER LOGIC (OUTSIDE return)
+  // 🔹 FETCH PRODUCTS FROM BACKEND
+  useEffect(() => {
+    fetch(`${API_URL}/products`)
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Error fetching products:", err));
+  }, []);
+
+  // 🔹 FILTER LOGIC
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -27,8 +35,7 @@ function Products() {
       <Navbar />
 
       <div className="mt-28 px-6">
-
-        {/* 🔹 SEARCH + FILTER BAR */}
+        {/* 🔹 SEARCH + FILTER */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <input
             type="text"
@@ -54,14 +61,14 @@ function Products() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
           {filteredProducts.map((product) => (
             <div
-              key={product.id}
-              onClick={() => navigate(`/products/${product.id}`)}
-              className="border rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 cursor-pointer"
+              key={product._id}
+              onClick={() => navigate(`/products/${product._id}`)}
+              className="border rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer"
             >
               <img
-                src={product.image}
-                className="w-full h-64 object-cover"
+                src={`http://localhost:5000/${product.images[0]}`}
                 alt={product.name}
+                className="w-full h-64 object-cover"
               />
               <div className="p-3 text-center">
                 <p className="font-semibold">{product.name}</p>

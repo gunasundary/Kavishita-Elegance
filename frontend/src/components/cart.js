@@ -111,11 +111,16 @@ function Cart() {
             </div>
 
             <button
+              disabled={cart.length === 0}
               onClick={() => {
-                closeCart();        //  CLOSE CART
+                closeCart();
                 navigate("/checkout");
               }}
-              className="bg-black text-white px-4 py-2 rounded w-full"
+              className={`px-4 py-2 rounded w-full 
+  ${cart.length === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-black text-white"}
+  `}
             >
               Checkout
             </button>

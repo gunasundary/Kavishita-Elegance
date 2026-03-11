@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Gold Necklace",
+    "description": "Elegant handcrafted gold necklace",
+    "price": 2499,
+    "category": "Necklace",
+    "images": [
+      "images/image1.webp",
+      "images/image2.jpg",
+      "images/image3.jpg",
+      "images/image4.jpg"
+    ],
+    "countInStock": 5
+  },
+  {
+    "name": "Diamond Ring",
+    "description": "Sparkling diamond ring for women",
+    "price": 3499,
+    "category": "Ring",
+    "images": [
+      "images/image1.webp",
+      "images/image2.jpg"
+    ],
+    "countInStock": 3
+  },
+  {
+    "name": "Pearl Earrings",
+    "description": "Classic pearl earrings",
+    "price": 1999,
+    "category": "Earrings",
+    "images": [
+      "images/image5.jpg"
+    ],
+    "countInStock": 10
+  }
+]

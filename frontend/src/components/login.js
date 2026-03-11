@@ -1,29 +1,61 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaGoogle} from "react-icons/fa";
 
 function Login() {
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    console.log(email, password);
-  };
+  const handleLogin = async (e) => {
 
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/google";
+    e.preventDefault();
+
+    try {
+
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+
+        navigate("/");
+
+      } else {
+
+        alert(data.message);
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f9f6f2]">
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+
         <h2 className="text-3xl font-serif text-center mb-6 text-[#7a4a2e]">
-         Login
+          Login
         </h2>
 
         <form onSubmit={handleLogin} className="space-y-4">
+
           <input
             type="email"
             placeholder="Email address"
@@ -45,23 +77,8 @@ function Login() {
           <button className="w-full bg-[#7a4a2e] text-white py-3 rounded-md">
             Login
           </button>
+
         </form>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-3 text-sm text-gray-400">OR</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
-
-        {/* Google Login */}
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 border py-3 rounded-md hover:bg-gray-50"
-        >
-          <img src={FaGoogle} alt="Google" className="w-5" />
-          <span className="font-medium">Continue with Google</span>
-        </button>
 
         <p className="text-center mt-4 text-sm">
           Don’t have an account?{" "}
@@ -72,6 +89,7 @@ function Login() {
             Sign up
           </span>
         </p>
+
       </div>
     </div>
   );

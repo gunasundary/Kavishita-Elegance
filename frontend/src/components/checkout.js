@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/cartcontext";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
   const { cart, clearCart } = useContext(CartContext);
   const [orderPlaced, setOrderPlaced] = useState(false);
+    const navigate = useNavigate();
 
   const totalAmount = cart.reduce(
     (sum, item) => sum + item.price * item.qty,
@@ -26,6 +28,10 @@ function Checkout() {
       </div>
     );
   }
+  if (cart.length === 0 && !orderPlaced) {
+  navigate(-1); // go back to previous page
+  return null;
+}
 
   return (
     <div className="pt-32 px-6 max-w-5xl mx-auto grid md:grid-cols-2 gap-8">

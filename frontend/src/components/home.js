@@ -1,6 +1,9 @@
 import Navbar from "./navbar";
 import HomeSlider from "./homeslider";
 import ShopByCategory from "./shopbycategory";
+import Newarrivals from "./newarrival";
+import Newsletter from "./newsletter";
+import Footer from "./footer";
 
 function Home() {
   return (
@@ -8,6 +11,9 @@ function Home() {
         <Navbar/>
      <HomeSlider />
      <ShopByCategory/>
+     <Newarrivals/>
+     <Newsletter/>
+     <Footer/>
     </div>
   );
 }
