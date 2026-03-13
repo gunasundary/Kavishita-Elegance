@@ -4,9 +4,11 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/kavishita_elegance");
+    await mongoose.connect(
+      "mongodb+srv://gunasundaryboopalan_db_user:Kavinaya%40123@cluster-1.bld6bg4.mongodb.net/kavishita_elegance?retryWrites=true&w=majority"
+    );
 
-    console.log("MongoDB Connected");
+    console.log("MongoDB Atlas Connected");
   } catch (error) {
     console.log("Database connection error:", error);
     process.exit(1);
