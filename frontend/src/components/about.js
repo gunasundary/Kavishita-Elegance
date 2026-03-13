@@ -1,5 +1,5 @@
 import Kavishita from "../assets/Kavishita.png";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Navbar from "./navbar";
 
 function About() {

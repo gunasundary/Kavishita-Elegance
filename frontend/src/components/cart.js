@@ -8,7 +8,7 @@ function Cart() {
     //cart,
     isCartOpen,
     toggleCart,
-    addToCart,
+    // addToCart,
     removeFromCart,
     increaseQty,
     decreaseQty,

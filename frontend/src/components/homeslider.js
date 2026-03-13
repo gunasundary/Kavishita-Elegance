@@ -13,7 +13,7 @@ function HomeSlider() {
     }, 3000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [images.length]);
 
   return (
     <div className="relative w-full h-[400px] overflow-hidden">
