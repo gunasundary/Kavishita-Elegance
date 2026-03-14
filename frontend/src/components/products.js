@@ -66,7 +66,7 @@ function Products() {
               className="border rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer"
             >
               <img
-                src={`http://localhost:5000/${product.images[0]}`}
+                src={`https://kavishita-elegance.onrender.com/${product.images[0]}`}
                 alt={product.name}
                 className="w-full h-64 object-cover"
               />
