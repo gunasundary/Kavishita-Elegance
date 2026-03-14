@@ -59,7 +59,7 @@ function ProductDetails() {
       <div className="px-6 md:px-16 mt-28 grid md:grid-cols-2 gap-12">
 
         <img
-          src={`http://localhost:5000/${product.images[0]}`}
+          src={`${API_URL.replace("/api", "")}/${product.images[0]}`}
           alt={product.name}
           className="w-full h-[450px] object-cover rounded-lg shadow"
         />
