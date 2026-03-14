@@ -5,12 +5,11 @@ import { API_URL } from "../api";
 
 function Products() {
   const navigate = useNavigate();
-
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
 
-  // 🔹 FETCH PRODUCTS FROM BACKEND
+  // 🔹 Fetch products from backend
   useEffect(() => {
     fetch(`${API_URL}/products`)
       .then((res) => res.json())
@@ -18,15 +17,12 @@ function Products() {
       .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
-  // 🔹 FILTER LOGIC
+  // 🔹 Filter logic
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(search.toLowerCase());
-
-    const matchesCategory =
-      category === "All" || product.category === category;
-
+    const matchesCategory = category === "All" || product.category === category;
     return matchesSearch && matchesCategory;
   });
 
@@ -35,7 +31,7 @@ function Products() {
       <Navbar />
 
       <div className="mt-28 px-6">
-        {/* 🔹 SEARCH + FILTER */}
+        {/* Search + Filter */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <input
             type="text"
@@ -44,7 +40,6 @@ function Products() {
             onChange={(e) => setSearch(e.target.value)}
             className="border p-2 w-full md:w-1/2"
           />
-
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -57,7 +52,7 @@ function Products() {
           </select>
         </div>
 
-        {/* 🔹 PRODUCT GRID */}
+        {/* Product Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
           {filteredProducts.map((product) => (
             <div
@@ -66,7 +61,7 @@ function Products() {
               className="border rounded-lg overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer"
             >
               <img
-                src={`${API_URL.replace("/api", "")}/images/${product.images[0]}`}
+                src={`${API_URL.replace("/api","")}/${product.images[0]}`}
                 alt={product.name}
                 className="w-full h-64 object-cover"
               />
@@ -78,11 +73,9 @@ function Products() {
           ))}
         </div>
 
-        {/* 🔹 EMPTY STATE */}
+        {/* Empty State */}
         {filteredProducts.length === 0 && (
-          <p className="text-center mt-10 text-gray-500">
-            No products found
-          </p>
+          <p className="text-center mt-10 text-gray-500">No products found</p>
         )}
       </div>
     </>
