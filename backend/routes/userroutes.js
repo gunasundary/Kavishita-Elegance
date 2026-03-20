@@ -82,5 +82,41 @@ router.post("/login", async (req, res) => {
   }
 
 });
+// @route   POST /api/users/google
+// @desc    Login/Register with Google
+router.post("/google", async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    // If not, create new user
+    if (!user) {
+      user = await User.create({
+        name,
+        email,
+        password: "google_login" // dummy password
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user._id },
+      "secretkey",
+      { expiresIn: "30d" }
+    );
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: token
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;
