@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, provider } from "../config/firebase";
 import { signInWithPopup } from "firebase/auth";
+import { API_URL } from "../api";
 
 
 function Signup() {
@@ -58,42 +59,38 @@ function Signup() {
 
 
   // Google Signup
-  const handleGoogleSignup = async () => {
+  const [loading, setLoading] = useState(false);
 
-    try {
+const handleGoogleSignup = async () => {
+  if (loading) return;
+  setLoading(true);
 
-      const result = await signInWithPopup(auth, provider);
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const user = result.user;
+    const res = await fetch(`${API_URL}/users/google`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: user.displayName,
+        email: user.email
+      })
+    });
 
-      // send Google user to backend
-      const res = await fetch("http://localhost:5000/api/users/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: user.displayName,
-          email: user.email,
-          password: "googleuser"
-        })
-      });
+    const data = await res.json();
 
-      const data = await res.json();
+    localStorage.setItem("userInfo", JSON.stringify(data));
+    navigate("/");
 
-      localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    console.log(error);
+  }
 
-      navigate("/");
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-
-  };
-
-
+  setLoading(false);
+};
 
   return (
 
@@ -154,12 +151,12 @@ function Signup() {
         {/* Google Signup */}
 
         <button
-          onClick={handleGoogleSignup}
-          className="w-full flex items-center justify-center gap-3 border py-3 rounded-md hover:bg-gray-50"
-        >
-          Continue with Google
-        </button>
-
+  onClick={handleGoogleSignup}
+  disabled={loading}
+  className="w-full flex items-center justify-center gap-3 border py-3 rounded-md hover:bg-gray-50"
+>
+  {loading ? "Signing in..." : "Continue with Google"}
+</button>
 
         <p className="text-center mt-4 text-sm">
           Already have an account?{" "}
